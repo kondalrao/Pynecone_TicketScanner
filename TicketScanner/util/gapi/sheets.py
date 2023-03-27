@@ -12,7 +12,11 @@ class GSheet():
     self.wks = self.gc.open(config.worksheet).worksheet()
 
   def process_code(self, code) -> str:
-    order_cell = self.wks.find(code)[0]
+    results = self.wks.find(code)
+    if len(results) == 0:
+      return "Invalid QR code."
+
+    order_cell = results[0]
     order_cell_address = order_cell.address
     status_cell_address = order_cell_address - (0,1)
     status_cell = self.wks.cell(status_cell_address)
